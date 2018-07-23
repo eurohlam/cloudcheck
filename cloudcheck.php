@@ -45,20 +45,31 @@ if (!class_exists('WP_Cloudcheck_Int')) {
 
 		private $db_table_name = 'cc_message_log';
 
-		static function install() {
+		static function activate() {
 		   	global $wpdb;
 
- 			$table_name = $wpdb->prefix . $this->db_table_name;
+ 			$table_name = $wpdb->prefix . 'cc_message_log';
 			$sql = "CREATE TABLE IF NOT EXISTS ".$table_name." (
 			  id int(11) NOT NULL AUTO_INCREMENT,
 			  time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 			  endpoint varchar(20) NOT NULL,
 			  request longtext CHARACTER SET utf8 NOT NULL,
 			  response longtext CHARACTER SET utf8 NOT NULL,
-			  filepath varchar(50), 	
+			  filepath varchar(50),
 			  PRIMARY KEY (id)
 			) DEFAULT CHARSET=utf8;";
- 
+
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			dbDelta( $sql );
+        }
+
+		function deactivate() {
+		   	global $wpdb;
+
+ 			$table_name = $wpdb->prefix . 'cc_message_log';
+			$sql = "DROP TABLE IF EXISTS ".$table_name;
+
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 			dbDelta( $sql );
         }
 
@@ -88,14 +99,14 @@ if (!class_exists('WP_Cloudcheck_Int')) {
 				$result = $cloudcheckInt->send_request($url . $path, $cloudcheckRequest);
 				error_log('Cloudcheck response: ' . $result);
 
-				$wpdb->insert( 
-		 			$wpdb->prefix . $this->db_table_name;
-					array( 
-					'time' => current_time( 'mysql' ), 
-					'endpoint' => $path, 
+				$wpdb->insert(
+		 			$wpdb->prefix . $this->db_table_name,
+					array(
+					'time' => current_time( 'mysql' ),
+					'endpoint' => $path,
 					'request' => json_encode($cloudcheckRequest),
-					'response' => $result,  
-					) 
+					'response' => $result,
+					)
 				);
 
 				echo $result;
@@ -172,8 +183,8 @@ if (!class_exists('WP_Cloudcheck_Int')) {
 
 if (class_exists('WP_Cloudcheck_Int')) {
 	// Installation and uninstallation hooks
-	register_activation_hook(__FILE__, array('WP_Cloudcheck_Int', 'install'));
-	//register_deactivation_hook(__FILE__, array('WP_Cloudcheck_Int', 'deactivate'));
+	register_activation_hook(__FILE__, array('WP_Cloudcheck_Int', 'activate'));
+	register_deactivation_hook(__FILE__, array('WP_Cloudcheck_Int', 'deactivate'));
 	// instantiate the plugin class
 	$wp_plugin = new WP_Cloudcheck_Int();
 }
