@@ -7,28 +7,11 @@
  * Author: Roundkick.Studio, eurohlam
  * Author URI: https://roundkick.studio
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- *
  * License: GPLv2 or later
- * Copyright (C) 2012-2017 by Teplitsa of Social Technologies (http://te-st.ru).
- *
- * GNU General Public License, Free Software Foundation <http://www.gnu.org/licenses/gpl-2.0.html>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
  */
 
 if (!defined('ABSPATH')) exit;
+
 include_once 'class-cloudcheck-integration.php';
 
 define('CLOUDCHECK_INT_VERSION', '1.0.0');
@@ -63,8 +46,15 @@ if (!class_exists('WP_Cloudcheck_Int')) {
 			dbDelta( $sql );
         }
 
-		function deactivate() {
+		static function deactivate() {
+			//nothing so far
+		}
+
+		static function uninstall() {
 		   	global $wpdb;
+			delete_option( 'cloudcheck_url' );
+			delete_option( 'cloudcheck_access_key' );
+			delete_option( 'cloudcheck_secret' );
 
  			$table_name = $wpdb->prefix . 'cc_message_log';
 			$sql = "DROP TABLE IF EXISTS ".$table_name;
@@ -76,6 +66,7 @@ if (!class_exists('WP_Cloudcheck_Int')) {
 		function __construct() {
 			add_action('admin_menu', array( $this, 'cloudcheck_menu'));
 			add_action('wp_ajax_cloudcheck_send_request', array( $this,'cloudcheck_send_request'));
+			add_action('wp_ajax_cloudcheck_send_email', array( $this,'send_pdf_by_email'));
 		}
 
 		/**
@@ -89,7 +80,7 @@ if (!class_exists('WP_Cloudcheck_Int')) {
 			$url = get_option($this->url_option);
 			$request = stripcslashes($_POST['request']);
 			$path = $_POST['path'];
-			error_log('Cloudcheck got path from AJAX:' . $path);
+			error_log('Cloudcheck got request from AJAX for endpoint:' . $path);
 			error_log('Cloudcheck got request from AJAX: ' . $request);
 
 			if (!empty($accessKey) && !empty($secret) && !empty($url) && !empty($path)) {
@@ -111,13 +102,27 @@ if (!class_exists('WP_Cloudcheck_Int')) {
 
 				echo $result;
 			} else {
-				error_log('Cloudchek error: empty one or several required parameters - accessKey, secret, url or path. Please check settings of Cloudcheck Integration plugin');
-				echo '{"Cloudchek error": "empty one or several required parameters - accessKey, secret, url or path"}';
+				error_log('Cloudcheck Integration plugin error: empty one or several required parameters - accessKey, secret, url or path. Please check settings of Cloudcheck Integration plugin');
+				echo '{"Cloudcheck Integration plugin error": "empty one or several required parameters - accessKey, secret, url or path"}';
 			}
 			wp_die();
 		}
 
+		function send_pdf_by_email() {
+	        $subject = 'Electronic Verification Identification Report';
+	        $body = 'Please refer to the attached PDF for more details';
+	        $headers = array('Content-Type: text/html; charset=UTF-8');
+			$filepath = $_POST['filepath'];
+			$emailList = $_POST['emaillist'];
 
+			error_log("Cloudcheck send PDF: " . $filepath);
+			error_log("Cloudcheck send to: " . $emailList);
+
+	        wp_mail( $emailList, $subject, $body, $headers, $filepath );
+
+			echo '{ "result" : "success" }';
+			wp_die();
+	    }
 
 		function cloudcheck_settings() {
 			register_setting( $this->options_group, $this->url_option );
@@ -185,6 +190,7 @@ if (class_exists('WP_Cloudcheck_Int')) {
 	// Installation and uninstallation hooks
 	register_activation_hook(__FILE__, array('WP_Cloudcheck_Int', 'activate'));
 	register_deactivation_hook(__FILE__, array('WP_Cloudcheck_Int', 'deactivate'));
+	register_uninstall_hook(__FILE__, array('WP_Cloudcheck_Int', 'uninstall'));
 	// instantiate the plugin class
 	$wp_plugin = new WP_Cloudcheck_Int();
 }

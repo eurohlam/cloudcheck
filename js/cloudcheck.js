@@ -20,6 +20,11 @@
         var passportexpiry = $("input#passportexpiry").val();
         var driverlicensenumber = $("input#driverlicensenumber").val();
         var driverlicenseversion = $("input#driverlicenseversion").val();
+        var clientemail = $("input#clientemail").val();
+        var agentemail = $("input#agentemail").val();
+        var adminemail = $("input#adminemail").val();
+
+        var emailList = [clientemail, agentemail, adminemail];
 
         var data = { 'details' : {}, 'reference' : '1', 'consent': 'Yes', 'capturereference': 'a09b1dc5-ea4f-4591-9e44-1fca76dfd000' };
 
@@ -61,32 +66,36 @@
             success: function(data) {
                 console.log("Cloudcheck response: " + JSON.stringify(data));
 				var ref = data.verification.verificationReference;
-				var error = data.verification.errorDetail;
+				var errorDetail = data.verification.errorDetail;
+                var errorMessage = data.verification.message;
+                var errorCode = data.verification.error;
+
 				console.log("Ref: " + ref);
-				console.log("Error: " + error);	
+				console.log("Error: " + errorCode + ": " + errorMessage + ";  " + errorMessage);
+
 				if ( ref ) {
-					getPdf(ref);
-				} else if ( error ) {
-	                // Enable button & show success message
-	                $("#btnSubmit").attr("disabled", false);
+					getPdf(ref, emailList);
+                    // Enable button & show success message
+                    $("#btnSubmit").attr("disabled", false);
+                    //clear all fields
+                    $('#cloudcheckForm').trigger("reset");
+				} else if ( errorCode ) {
 	                $('#success').html("<div class='alert alert-danger'>");
 	                $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
 	                    .append("</button>");
 	                $('#success > .alert-danger')
-	                    .append("<strong>Verification error: </strong>" + error + " <p>" +JSON.stringify(data) + "</p>");
+	                    .append("<p><strong>Verification error " + errorCode + ":</strong></p><p><strong>Error Message:</strong>" + errorMessage + "</p><p><strong>Error Details:</strong> " + errorDetail + "</p>");
 	                $('#success > .alert-danger')
 	                    .append('</div>');
 				}
 
-                //clear all fields
-                $('#cloudcheckForm').trigger("reset");
             },
             error: function() {
                 // Fail message
                 $('#success').html("<div class='alert alert-danger'>");
                 $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
                     .append("</button>");
-                $('#success > .alert-danger').append("<strong>Sorry " + name + ", it seems that cloudcheck service is not responding. Please try again later!");
+                $('#success > .alert-danger').append("<strong>It seems that Cloudcheck service is not responding. Please try again later!</strong>");
                 $('#success > .alert-danger').append('</div>');
                 //clear all fields
                 $('#cloudcheckForm').trigger("reset");
@@ -95,25 +104,9 @@
     }); //cloudcheckForm submit
 
 
-    $("#cloudcheckPdfForm").submit(function(event) {
-        // Prevent spam click and default submit behaviour
-        $("#btnGetPdf").attr("disabled", true);
-        event.preventDefault();
-
-        // get values from FORM
-        var reference = $("input#verificationReference").val();
-        console.log("Cloudcheck request: " + reference);
-		getPdf(reference);
-        // Enable button & show success message
-        $("#btnGetPdf").attr("disabled", false);
-        //clear all fields
-        $('#cloudcheckPdfForm').trigger("reset");
-    }); //cloudcheckPdfForm submit
-
-	function getPdf(reference) {
-
+	function getPdf(reference, emailList) {
         $.ajax({
-            url: "/wp-admin/admin-ajax.php", //"wp-content/plugins/cloudcheck/cloudcheck.php",
+            url: "/wp-admin/admin-ajax.php",
             type: "POST",
             dataType: "JSON",
             data: {
@@ -128,24 +121,58 @@
                 $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
                     .append("</button>");
                 $('#success > .alert-success')
-                    .append("<strong>Response from service: </strong>" + JSON.stringify(data));
+                    .append("<strong>Verification completed successfully. Trying to send result by email ...</strong>");
                 $('#success > .alert-success')
                     .append('</div>');
 
                 //open pdf in new tab
-                window.open(data.pdf, '_blank');
+                window.open(data.pdfUrl, '_blank');
+                //send email
+                sendEmail(emailList, data.pdfPath);
             },
             error: function() {
                 // Fail message
                 $('#success').html("<div class='alert alert-danger'>");
                 $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
                     .append("</button>");
-                $('#success > .alert-danger').append("<strong>It seems that Cloudcheck service is not responding. Verification is done, but we are not able to get resulted PDF. Please try again later!");
+                $('#success > .alert-danger').append("<strong>It seems that Cloudcheck service is not responding. Verification is done, but we are not able to get resulted PDF. Please try again later!</strong>");
                 $('#success > .alert-danger').append('</div>');
-                //clear all fields
-                $('#cloudcheckPdfForm').trigger("reset");
             },
         });
-	} //getPdf 
+	} //getPdf
+
+    function sendEmail(emailList, filepath) {
+        console.log("Sending email to: " + JSON.stringify(emailList));
+        console.log("Attachment: " + filepath);
+        $.ajax({
+            url: "/wp-admin/admin-ajax.php",
+            type: "POST",
+            dataType: "JSON",
+            data: {
+                'action': 'cloudcheck_send_email',
+                'emaillist': emailList,
+                'filepath' : filepath
+            },
+            cache: false,
+            success: function(data) {
+                console.log("Cloudcheck response: " + JSON.stringify(data));
+                $('#success').html("<div class='alert alert-success'>");
+                $('#success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+                    .append("</button>");
+                $('#success > .alert-success')
+                    .append("<strong>Verification completed successfully. Resulted PDF has been sent by email</strong>");
+                $('#success > .alert-success')
+                    .append('</div>');
+            },
+            error: function() {
+                // Fail message
+                $('#success').html("<div class='alert alert-danger'>");
+                $('#success > .alert-danger').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+                    .append("</button>");
+                $('#success > .alert-danger').append("<strong>Couldn't send resulted PDF by email. Please, check settings of email server</strong>");
+                $('#success > .alert-danger').append('</div>');
+            },
+        });
+    } //sendEmail
 
 }) ( jQuery );
