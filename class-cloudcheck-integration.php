@@ -1,4 +1,5 @@
 <?php
+if (!defined('ABSPATH')) exit;
 
 class Cloudcheck_Integration {
 
@@ -61,7 +62,7 @@ class Cloudcheck_Integration {
       $params = array(
               CURLOPT_RETURNTRANSFER => 1,
               CURLOPT_HTTPHEADER => array('Content-type: application/x-www-form-urlencoded'),
-              CURLOPT_URL => $url, //'https://api.cloudcheck.co.nz/verify/',
+              CURLOPT_URL => $url,
               CURLOPT_PORT => 443,
               CURLOPT_POST => !$isPDF, //if pdf then method=GET otherwise method=POST
               CURLOPT_SSL_VERIFYHOST => false,
@@ -92,7 +93,8 @@ class Cloudcheck_Integration {
       //wp_mkdir_p($upload['basedir'] . '/cloudcheck');
       $filename = $this->milliseconds() . '.pdf';
       file_put_contents($upload['path'] . '/' . $filename, $file);
-      $result = '{"pdf" : "' . $upload['url'] . '/' . $filename . '"}';
+      $result = '{"pdfUrl" : "' . $upload['url'] . '/' . $filename .'",'.
+                 '"pdfPath" : "' . $upload['path'] . '/' . $filename . '"}';
       return $result;
   }
 

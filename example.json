@@ -84,8 +84,9 @@ Response: {
     }
 }
 
-
-{
+Failed validation:
+{ 
+"verification": {
     "reference": "1",
     "verificationSuccess": false,
     "validated": {
@@ -115,4 +116,15 @@ Response: {
         }
     }
 }
+}
+
+
+Error message:
+{
+  "verification": {
+    "errorDetail": "Your Passport Expiry must be in the future",
+    "message": "Please check the required fields are all supplied.",
+    "fields": "driversLicenceNumber, driversLicenceVersion, passportNumber, passportExpiry",
+    "error": 102
+  }
 }
