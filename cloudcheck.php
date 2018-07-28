@@ -57,10 +57,9 @@ if (!class_exists('WP_Cloudcheck_Int')) {
 			delete_option( 'cloudcheck_secret' );
 
  			$table_name = $wpdb->prefix . 'cc_message_log';
-			$sql = "DROP TABLE IF EXISTS ".$table_name;
+			$sql = "DROP TABLE IF EXISTS $table_name";
 
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-			dbDelta( $sql );
+			$wpdb->query( $sql );
         }
 
 		function __construct() {
