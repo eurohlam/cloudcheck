@@ -13,6 +13,7 @@
 if (!defined('ABSPATH')) exit;
 
 include_once 'class-cloudcheck-integration.php';
+include_once 'cloudcheck-shortcodes.php';
 
 define('CLOUDCHECK_INT_VERSION', '1.0.0');
 
@@ -66,6 +67,7 @@ if (!class_exists('WP_Cloudcheck_Int')) {
 			add_action('admin_menu', array( $this, 'cloudcheck_menu'));
 			add_action('wp_ajax_cloudcheck_send_request', array( $this,'cloudcheck_send_request'));
 			add_action('wp_ajax_cloudcheck_send_email', array( $this,'send_pdf_by_email'));
+			add_action('init', 'cloudcheck_shortcodes_init');
 		}
 
 		/**
