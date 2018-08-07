@@ -6,13 +6,15 @@ function cloudcheck_shortcodes_init()
     {
         $form = '<head><link rel="stylesheet" href="/wp-content/plugins/cloudcheck/css/bootstrap.css"></head>
             <section id="cloudcheck_section">
-                <div class="container"><div class="row"><div class="col-lg-8 col-lg-offset-2">
+                <div class="container"><div class="row">
                 <form id="cloudcheckForm">'
                     . do_shortcode($content)
-		            . '<div id="success"></div><div class="row">
+		            . '<div id="success"></div>
+                    <div class="row">
                     <div class="form-group col-xs-12">
                         <button id="btnSubmit" class="btn btn-success btn-lg" type="submit">Send</button>
-                    </div></div>
+                    </div>
+                    </div>
                 </form>
                 </div></div>
             </section>
