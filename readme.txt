@@ -14,14 +14,28 @@ Wordpress plugin for integration with Cloudcheck service for electronic identifi
 www.verifidentity.com/cloudcheck
 
 
-== Installation ==
+== Configuration ==
 
+* Firstly, you have to configure cloudcheck endpoint and credentials. Navigate to Settings -> Cloudcheck Integration
+
+* Secondly, you have to create a page that will be showing Cloudcheck forms. Forms must be added into page via predefined shortcodes like below:
+[cloudcheck_main_form]
+	[cloudcheck_basic_info]
+	[cloudcheck_nz_passport]
+	[cloudcheck_nz_driving_license]
+	[cloudcheck_emails]
+[/cloudcheck_main_form] 
+
+To run the integration your page has to include at least the minimal structure:
+[cloudcheck_main_form]
+	[cloudcheck_basic_info]
+[/cloudcheck_main_form] 
+
+Other shortcodes are optional. 
 
 
 == Frequently Asked Questions ==
 
-
-== Screenshots ==
 
 
 == Changelog ==
