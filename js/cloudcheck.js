@@ -26,13 +26,13 @@
         var nz_citizenshipcertificate = $("input#nz_citizenshipcertificate").val();
         var nz_citizenshipcountryofbirth = $("input#nz_citizenshipcountryofbirth").val();
 
-		//get emails from FORM for sending resulted PDF	
+		//get emails from FORM for sending resulted PDF
         var clientemail = $("input#clientemail").val();
         var agentemail = $("input#agentemail").val();
         var adminemail = $("input#adminemail").val();
 
         var emailList = [clientemail, agentemail, adminemail];
-		
+
 		//prepare json data
         var data = { 'details' : {}, 'reference' : '1', 'consent': 'Yes', 'capturereference': 'a09b1dc5-ea4f-4591-9e44-1fca76dfd000' };
 
@@ -63,7 +63,7 @@
         };
 		if ( nz_citizenshipcertificate ) {
             data.details.citizenship = { 'certificatenumber' : nz_citizenshipcertificate,
-    								     'countryofbirth' : nz_countryofbirth };
+    								     'countryofbirth' : nz_citizenshipcountryofbirth };
  		};
 
         var requestJson = JSON.stringify(data);

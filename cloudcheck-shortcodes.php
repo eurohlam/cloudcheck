@@ -90,7 +90,7 @@ function cloudcheck_shortcodes_init()
         $passport = '<div class="row control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">
                 <label>Passport number</label>
-                <input id="nz_passportnumber" class="form-control" type="text" pattern="^[A-Za-z]{2}[0-9]{6}$" placeholder="Passport number" />
+                <input id="nz_passportnumber" class="form-control" type="text" pattern="^[A-Za-z]{2}[0-9]{6}$" title="Passport number can contain exactly 2 letters and 6 digits " placeholder="Passport number" />
             </div>
             <div class="form-group col-xs-12 floating-label-form-group controls">
                 <label>Passport Expiry</label>
@@ -110,11 +110,11 @@ function cloudcheck_shortcodes_init()
         $driving = '<div class="row control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">
                 <label>Driver License Number</label>
-                <input id="nz_driverlicensenumber" class="form-control" type="text" pattern="^[A-Za-z]{2}[0-9]{6}$" placeholder="Driver license number" />
+                <input id="nz_driverlicensenumber" class="form-control" type="text" pattern="^[A-Za-z]{2}[0-9]{6}$" title="License number can contain exactly 2 letters and 6 digits" placeholder="Driver license number" />
             </div>
             <div class="form-group col-xs-12 floating-label-form-group controls">
                 <label>Driver License Version</label>
-                <input id="nz_driverlicenseversion" class="form-control" type="number" pattern="^[0-9]{3}$" title="" placeholder="Driver license version" />
+                <input id="nz_driverlicenseversion" class="form-control" type="text" pattern="^[0-9]{3}$" title="License version can contain exactly 3 digits" placeholder="Driver license version" />
             </div></div>';
 
         return $driving;
@@ -146,7 +146,7 @@ function cloudcheck_shortcodes_init()
         $birth = '<div class="row control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">
                 <label>NZ Birth Certificate Registration Number</label>
-                <input id="nz_birthcertificate" class="form-control" type="number" placeholder="NZ Birth Certificate Registration Number" />
+                <input id="nz_birthcertificate" class="form-control" type="text" pattern="^[0-9]+$" title="Birth certificate number can contain only digits" placeholder="NZ Birth Certificate Registration Number" />
             </div></div>';
 
         return $birth;
@@ -162,7 +162,7 @@ function cloudcheck_shortcodes_init()
         $birth = '<div class="row control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">
                 <label>NZ Citizenship Certificate Number</label>
-                <input id="nz_citizenshipcertificate" class="form-control" type="number" pattern="^[0-9]{6,10}$" placeholder="NZ Citizenship Certificate Number" />
+                <input id="nz_citizenshipcertificate" class="form-control" type="text" pattern="^[0-9]{6,10}$" title="Certificate number can contain not more than 10 digits " placeholder="NZ Citizenship Certificate Number" />
 			</div>
             <div class="form-group col-xs-12 floating-label-form-group controls">
                 <label>Country of Birth</label>
