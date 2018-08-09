@@ -2,6 +2,9 @@
 function cloudcheck_shortcodes_init()
 {
 
+	/** Enclosing main shortcode that shows the main container form.
+	 *  All other shortcodes must be placed inside this one.
+	 */
     function cloudcheck_main_form_shortcode($atts = [], $content = null)
     {
         $form = '<head><link rel="stylesheet" href="/wp-content/plugins/cloudcheck/css/bootstrap.css"></head>
@@ -87,11 +90,11 @@ function cloudcheck_shortcodes_init()
         $passport = '<div class="row control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">
                 <label>Passport number</label>
-                <input id="passportnumber" class="form-control" type="text" placeholder="Passport number" />
+                <input id="nz_passportnumber" class="form-control" type="text" pattern="^[A-Za-z]{2}[0-9]{6}$" placeholder="Passport number" />
             </div>
             <div class="form-group col-xs-12 floating-label-form-group controls">
                 <label>Passport Expiry</label>
-                <input id="passportexpiry" class="form-control" type="date" placeholder="Passport expiry" />
+                <input id="nz_passportexpiry" class="form-control" type="date" placeholder="Passport expiry" />
             </div></div>';
 
         return $passport;
@@ -99,7 +102,7 @@ function cloudcheck_shortcodes_init()
     add_shortcode('cloudcheck_nz_passport', 'cloudcheck_nz_passport_shortcode');
 
 
-	/** Shortcode that shows fields for verification by NZ driving license:
+	/** Shortcode that shows fields for verification by NZ driving license via NZTA:
 	 *  driving license number, driving llicense version
 	 */
     function cloudcheck_nz_driving_license_shortcode($atts = [], $content = null)
@@ -107,16 +110,68 @@ function cloudcheck_shortcodes_init()
         $driving = '<div class="row control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">
                 <label>Driver License Number</label>
-                <input id="driverlicensenumber" class="form-control" type="text" placeholder="Driver license number" />
+                <input id="nz_driverlicensenumber" class="form-control" type="text" pattern="^[A-Za-z]{2}[0-9]{6}$" placeholder="Driver license number" />
             </div>
             <div class="form-group col-xs-12 floating-label-form-group controls">
                 <label>Driver License Version</label>
-                <input id="driverlicenseversion" class="form-control" type="text" placeholder="Driver license version" />
+                <input id="nz_driverlicenseversion" class="form-control" type="number" pattern="^[0-9]{3}$" title="" placeholder="Driver license version" />
             </div></div>';
 
         return $driving;
     }
     add_shortcode('cloudcheck_nz_driving_license', 'cloudcheck_nz_driving_license_shortcode');
+
+
+	/** Shortcode that shows fields for verification by vehicle plate number via NZTA:
+	 *  vehicle number plate
+	 */
+    function cloudcheck_nz_vehicle_plate_number_shortcode($atts = [], $content = null)
+    {
+        $plate = '<div class="row control-group">
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+                <label>Vehicle Plate Number</label>
+                <input id="nz_vehicleplatenumber" class="form-control" type="text" pattern="^[A-Za-z0-9]{1,6}$" title="Plate number can contain not more than 6 digits and letters" placeholder="Vehicle plate number" />
+            </div></div>';
+
+        return $plate;
+    }
+    add_shortcode('cloudcheck_nz_vehicle_plate_number', 'cloudcheck_nz_vehicle_plate_number_shortcode');
+
+
+	/** Shortcode that shows fields for verification by NZ birth certificate:
+	 *  birthcertificate
+	 */
+    function cloudcheck_nz_birth_certificate_shortcode($atts = [], $content = null)
+    {
+        $birth = '<div class="row control-group">
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+                <label>NZ Birth Certificate Registration Number</label>
+                <input id="nz_birthcertificate" class="form-control" type="number" placeholder="NZ Birth Certificate Registration Number" />
+            </div></div>';
+
+        return $birth;
+    }
+    add_shortcode('cloudcheck_nz_birth_certificate', 'cloudcheck_nz_birth_certificate_shortcode');
+
+
+	/** Shortcode that shows fields for verification by NZ citizenship:
+	 *  certificatenumber, countryofbirth
+	 */
+    function cloudcheck_nz_citizenship_shortcode($atts = [], $content = null)
+    {
+        $birth = '<div class="row control-group">
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+                <label>NZ Citizenship Certificate Number</label>
+                <input id="nz_citizenshipcertificate" class="form-control" type="number" pattern="^[0-9]{6,10}$" placeholder="NZ Citizenship Certificate Number" />
+			</div>
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+                <label>Country of Birth</label>
+                <input id="nz_citizenshipcountryofbirth" class="form-control" type="text" placeholder="Country of Birth" />
+            </div></div>';
+
+        return $birth;
+    }
+    add_shortcode('cloudcheck_nz_citizenship_certificate', 'cloudcheck_nz_citizenship_shortcode');
 
 
 	/** Shortcode that shows email fields:
