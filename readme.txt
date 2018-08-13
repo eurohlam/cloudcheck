@@ -11,14 +11,22 @@ Integration with cloudcheck service for electronic identification verification. 
 == Description ==
 
 Wordpress plugin for integration with Cloudcheck service for electronic identification verification. Only for New Zealand and Australia
-www.verifidentity.com/cloudcheck
+www.verifidentity.com/cloudcheck.
+Using this plugin you can create a page with form that contains a number of fields required for identification verification,
+send request to www.verifidentity.com/cloudcheck service and get resulted report in PDF format. The resulted report will be send by email as well. 
+
 
 
 == Configuration ==
 
-* Firstly, you have to configure cloudcheck endpoint and credentials. Navigate to Settings -> Cloudcheck Integration
+* Firstly, you have to contact to Cloudcheck service team to get permissions to use the service.  
+If it's done, you have to configure the plugin and set cloudcheck endpoint and credentials. 
+Navigate to Settings -> Cloudcheck Integration and fill the following fields:
+	Cloudcheck URL - by default it is https://api.cloudcheck.co.nz, unless you are going to use custom URL https://<companyname>.cloudcheck.co.nz
+	Cloudcheck Access Key - uniquie access key that has to be provided by www.verifidentity.com 
+	Cloudcheck Secret Key - uniquie secret key that has to be provided by www.verifidentity.com
 
-* Secondly, you have to create a page that will be showing Cloudcheck forms. Forms must be added into page via predefined shortcodes like below:
+* Secondly, you have to create a page that will be showing Cloudcheck form. The form must be added into page via predefined shortcodes like below:
 [cloudcheck_main_form]
 	[cloudcheck_basic_info]
 	[cloudcheck_nz_passport]
@@ -26,15 +34,31 @@ www.verifidentity.com/cloudcheck
 	[cloudcheck_emails]
 [/cloudcheck_main_form] 
 
-To run the integration your page has to include at least the minimal structure:
+To run the integration your page must include at least the minimal structure of the following shortcodes:
 [cloudcheck_main_form]
 	[cloudcheck_basic_info]
+	[cloudcheck_emails]
 [/cloudcheck_main_form] 
 
-Other shortcodes are optional. 
+Other shortcodes are optional and different for New Zealand and Australia.
 
 
-== Frequently Asked Questions ==
+
+== Shortcodes ==
+
+The basic shortcodes:
+	[cloudcheck_main_form] - Enclosing main shortcode that shows the main container form. All other shortcodes must be placed inside this one.
+	[cloudcheck_basic_info] - Shortcode that shows basic fields always required for verification: first name, middle name, surname, address
+	[cloudcheck_emails] - Shortcode that shows email fields: Client email, Agent email, Administrator email. Report will be send to those emails
+
+The list of available shortcodes for verfication in New Zealand:
+	[cloudcheck_nz_passport] - Shortcode that shows fields for verification by NZ passport: passport number, passport expiry
+	[cloudcheck_nz_driving_license] - Shortcode that shows fields for verification by NZ driving license via NZTA: driving license number, driving llicense version
+	[cloudcheck_nz_citizenship] - Shortcode that shows fields for verification by NZ birth certificate: birthcertificate
+	[cloudcheck_nz_birth_certificate] - Shortcode that shows fields for verification by NZ citizenship: certificatenumber, countryofbirth
+	[cloudcheck_nz_vehicle_plate_number] - Shortcode that shows fields for verification by vehicle plate number via NZTA: vehicle number plate
+
+The list of available shortcodes for verfication in Australia:
 
 
 

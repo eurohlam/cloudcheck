@@ -82,6 +82,34 @@ function cloudcheck_shortcodes_init()
     add_shortcode('cloudcheck_basic_info', 'cloudcheck_basic_info_shortcode');
 
 
+	/** Shortcode that shows email fields:
+	 *  Client email, Agent email, Administrator email
+	 */
+    function cloudcheck_emails_shortcode($atts = [], $content = null)
+    {
+        $emails = '<div class="row">
+                       <div class="row control-group">
+                          <div class="form-group col-xs-12 floating-label-form-group controls">
+							  <label>Client email</label>
+                              <input id="clientemail" class="form-control" required type="email" placeholder="Client email"/>
+                          </div>
+                       </div>
+                       <div class="row control-group">
+                          <div class="form-group col-xs-12 floating-label-form-group controls">
+							  <label>Agent email</label>
+                              <input id="agentemail" class="form-control" required type="email" placeholder="Agent email"/>
+                          </div>
+                          <div class="form-group col-xs-12 floating-label-form-group controls">
+							  <label>Administrator email</label>
+                              <input id="adminemail" class="form-control" required type="email" placeholder="Administrator email" />
+                          </div>
+                       </div>
+                    </div>';
+        return $emails;
+    }
+    add_shortcode('cloudcheck_emails', 'cloudcheck_emails_shortcode');
+
+
 	/** Shortcode that shows fields for verification by NZ passport:
 	 *  passport number, passport expiry
 	 */
@@ -159,7 +187,7 @@ function cloudcheck_shortcodes_init()
 	 */
     function cloudcheck_nz_citizenship_shortcode($atts = [], $content = null)
     {
-        $birth = '<div class="row control-group">
+        $citizenship = '<div class="row control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">
                 <label>NZ Citizenship Certificate Number</label>
                 <input id="nz_citizenshipcertificate" class="form-control" type="text" pattern="^[0-9]{6,10}$" title="Certificate number can contain not more than 10 digits " placeholder="NZ Citizenship Certificate Number" />
@@ -169,35 +197,85 @@ function cloudcheck_shortcodes_init()
                 <input id="nz_citizenshipcountryofbirth" class="form-control" type="text" placeholder="Country of Birth" />
             </div></div>';
 
-        return $birth;
+        return $citizenship;
     }
-    add_shortcode('cloudcheck_nz_citizenship_certificate', 'cloudcheck_nz_citizenship_shortcode');
+    add_shortcode('cloudcheck_nz_citizenship', 'cloudcheck_nz_citizenship_shortcode');
 
 
-	/** Shortcode that shows email fields:
-	 *  Client email, Agent email, Administrator email
+	/** Shortcode that shows fields for verification by Australian passport:
+	 *  passport number, passport gender
 	 */
-    function cloudcheck_emails_shortcode($atts = [], $content = null)
+    function cloudcheck_au_passport_shortcode($atts = [], $content = null)
     {
-        $emails = '<div class="row">
-                       <div class="row control-group">
-                          <div class="form-group col-xs-12 floating-label-form-group controls">
-							  <label>Client email</label>
-                              <input id="clientemail" class="form-control" required type="email" placeholder="Client email"/>
-                          </div>
-                       </div>
-                       <div class="row control-group">
-                          <div class="form-group col-xs-12 floating-label-form-group controls">
-							  <label>Agent email</label>
-                              <input id="agentemail" class="form-control" required type="email" placeholder="Agent email"/>
-                          </div>
-                          <div class="form-group col-xs-12 floating-label-form-group controls">
-							  <label>Administrator email</label>
-                              <input id="adminemail" class="form-control" required type="email" placeholder="Administrator email" />
-                          </div>
-                       </div>
-                    </div>';
-        return $emails;
+        $passport = '<div class="row control-group">
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+                <label>Passport number</label>
+                <input id="au_passportnumber" class="form-control" type="text" pattern="[A-Za-z]{1,2}[0-9]{7}" title="Passport number can contain exactly 1 or 2 letters and 7 digits " placeholder="Passport number" />
+            </div>
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+                <label>Passport Gender</label>
+                <select id="au_passportgender" class="form-control" placeholder="Passport gender">
+					<option value="F">Female</option>
+					<option value="M">Male</option>
+					<option value="X">X</option>
+				</select>
+            </div></div>';
+
+        return $passport;
     }
-    add_shortcode('cloudcheck_emails', 'cloudcheck_emails_shortcode');
+    add_shortcode('cloudcheck_au_passport', 'cloudcheck_au_passport_shortcode');
+
+
+	/** Shortcode that shows fields for verification by Australian citizenship:
+	 *  acquisitiondate, stocknumber
+	 */
+    function cloudcheck_au_citizenship_shortcode($atts = [], $content = null)
+    {
+        $citizenship = '<div class="row control-group">
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+                <label>AU Citizenship Acquisition Date</label>
+                <input id="au_citizenshipacquisitiondate" class="form-control" type="date" placeholder="AU Citizenship Acquisition Date" />
+			</div>
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+                <label>AU Citizenship By Descent</label>
+                <input id="au_citizenshipbydescent" class="form-control" type="checkbox" value="true" placeholder="AU Citizenship By Descent" />
+			</div>
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+                <label>AU Citizenship Stock Number</label>
+                <input id="au_citizenshipstocknumber" class="form-control" type="text" placeholder="AU Citizenship Stock Number" />
+            </div></div>';
+
+        return $citizenship;
+    }
+    add_shortcode('cloudcheck_au_citizenship', 'cloudcheck_au_citizenship_shortcode');
+
+
+	/** Shortcode that shows fields for verification by Australian driving license:
+	 *  state of issue, driving license number
+	 */
+    function cloudcheck_au_driving_license_shortcode($atts = [], $content = null)
+    {
+        $driving = '<div class="row control-group">
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+                <label>Driver License State of Issue</label>
+                <select id="au_driverlicensestate" class="form-control" placeholder="Driver license state of issue" >
+					<option value="ACT">ACT</option>
+					<option value="NSW">NSW</option>
+					<option value="NT">NT</option>
+					<option value="QLD">QLD</option>
+					<option value="SA">SA</option>
+					<option value="TAS">TAS</option>
+					<option value="VIC">VIC</option>
+					<option value="WA">WA</option>
+				</select>
+            </div>
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+                <label>Driver License Number</label>
+                <input id="au_driverlicensenumber" class="form-control" type="text" pattern="[A-Za-z0-9]*" title="License version can contain contain only letters and digits" placeholder="Driver license number" />
+            </div></div>';
+
+        return $driving;
+    }
+    add_shortcode('cloudcheck_au_driving_license', 'cloudcheck_au_driving_license_shortcode');
+
 }
