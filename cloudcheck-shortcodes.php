@@ -117,7 +117,7 @@ function cloudcheck_shortcodes_init()
     {
         $passport = '<div class="row control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">
-                <label>Passport number</label>
+                <label>NZ Passport Number</label>
                 <input id="nz_passportnumber" class="form-control" type="text" pattern="^[A-Za-z]{2}[0-9]{6}$" title="Passport number can contain exactly 2 letters and 6 digits " placeholder="Passport number" />
             </div>
             <div class="form-group col-xs-12 floating-label-form-group controls">
@@ -137,7 +137,7 @@ function cloudcheck_shortcodes_init()
     {
         $driving = '<div class="row control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">
-                <label>Driver License Number</label>
+                <label>NZ Driver License Number</label>
                 <input id="nz_driverlicensenumber" class="form-control" type="text" pattern="^[A-Za-z]{2}[0-9]{6}$" title="License number can contain exactly 2 letters and 6 digits" placeholder="Driver license number" />
             </div>
             <div class="form-group col-xs-12 floating-label-form-group controls">
@@ -209,7 +209,7 @@ function cloudcheck_shortcodes_init()
     {
         $passport = '<div class="row control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">
-                <label>Passport number</label>
+                <label>AU Passport Number</label>
                 <input id="au_passportnumber" class="form-control" type="text" pattern="[A-Za-z]{1,2}[0-9]{7}" title="Passport number can contain exactly 1 or 2 letters and 7 digits " placeholder="Passport number" />
             </div>
             <div class="form-group col-xs-12 floating-label-form-group controls">
@@ -227,7 +227,7 @@ function cloudcheck_shortcodes_init()
 
 
 	/** Shortcode that shows fields for verification by Australian citizenship:
-	 *  acquisitiondate, stocknumber
+	 *  acquisition date, citizenship by descent, stock number
 	 */
     function cloudcheck_au_citizenship_shortcode($atts = [], $content = null)
     {
@@ -257,6 +257,10 @@ function cloudcheck_shortcodes_init()
     {
         $driving = '<div class="row control-group">
             <div class="form-group col-xs-12 floating-label-form-group controls">
+                <label>AU Driver License Number</label>
+                <input id="au_driverlicensenumber" class="form-control" type="text" pattern="[A-Za-z0-9]*" title="License version can contain contain only letters and digits" placeholder="Driver license number" />
+            </div>
+            <div class="form-group col-xs-12 floating-label-form-group controls">
                 <label>Driver License State of Issue</label>
                 <select id="au_driverlicensestate" class="form-control" placeholder="Driver license state of issue" >
 					<option value="ACT">ACT</option>
@@ -268,14 +272,46 @@ function cloudcheck_shortcodes_init()
 					<option value="VIC">VIC</option>
 					<option value="WA">WA</option>
 				</select>
-            </div>
-            <div class="form-group col-xs-12 floating-label-form-group controls">
-                <label>Driver License Number</label>
-                <input id="au_driverlicensenumber" class="form-control" type="text" pattern="[A-Za-z0-9]*" title="License version can contain contain only letters and digits" placeholder="Driver license number" />
             </div></div>';
 
         return $driving;
     }
     add_shortcode('cloudcheck_au_driving_license', 'cloudcheck_au_driving_license_shortcode');
+
+
+	/** Shortcode that shows fields for verification by Australian Visa:
+	 *  Country of Issue, Passport Number
+	 */
+    function cloudcheck_au_visa_shortcode($atts = [], $content = null)
+    {
+        $visa = '<div class="row control-group">
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+                <label>Country of Issue</label>
+                <input id="au_visacountryofissue" class="form-control" type="text" pattern="[A-Za-z]{3}|[Dd]" title="Country code consitst of 3 letters" placeholder="Country of Issue" />
+            </div>
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+                <label>Passport number</label>
+                <input id="au_visapassportnumber" class="form-control" type="text" pattern="[A-Za-z0-9]*" title="Passport number can contain only letters and digits" placeholder="Passport number" />
+            </div></div>';
+
+        return $visa;
+    }
+    add_shortcode('cloudcheck_au_visa', 'cloudcheck_au_visa_shortcode');
+
+
+	/** Shortcode that shows fields for verification by Australian ImmiCard:
+	 *  immicard number
+	 */
+    function cloudcheck_au_immicard_shortcode($atts = [], $content = null)
+    {
+        $immicard = '<div class="row control-group">
+            <div class="form-group col-xs-12 floating-label-form-group controls">
+                <label>AU ImmiCard Number</label>
+                <input id="au_immicardnumber" class="form-control" type="text" pattern="[A-Za-z]{3}[0-9]{6}" title="ImmiCard number can contain 3 letters and 6 digits" placeholder="ImmiCard number" />
+            </div></div>';
+
+        return $immicard;
+    }
+    add_shortcode('cloudcheck_au_immicard', 'cloudcheck_au_immicard_shortcode');
 
 }

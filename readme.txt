@@ -59,7 +59,11 @@ The list of available shortcodes for verfication in New Zealand:
 	[cloudcheck_nz_vehicle_plate_number] - Shortcode that shows fields for verification by vehicle plate number via NZTA: vehicle number plate
 
 The list of available shortcodes for verfication in Australia:
-
+	[cloudcheck_au_driving_license] - Shortcode that shows fields for verification by Australian driving license: state of issue, driving license number
+	[cloudcheck_au_citizenship] - Shortcode that shows fields for verification by Australian citizenship:acquisition date, citizenship by descent, stock number
+	[cloudcheck_au_passport] - Shortcode that shows fields for verification by Australian passport: passport number, passport gender
+	[cloudcheck_au_visa] - Shortcode that shows fields for verification by Australian Visa: Country of Issue, Passport Number
+	[cloudcheck_au_immicard] - Shortcode that shows fields for verification by Australian ImmiCard: immicard number
 
 
 == Changelog ==

@@ -16,6 +16,13 @@
         var streetnumber = $("input#streetnumber").val();
         var street = $("input#street").val();
         var postcode = $("input#postcode").val();
+
+		//get emails from FORM for sending resulted PDF
+        var clientemail = $("input#clientemail").val();
+        var agentemail = $("input#agentemail").val();
+        var adminemail = $("input#adminemail").val();
+        var emailList = [clientemail, agentemail, adminemail];
+
 		//get NZ specific fields from FORM
         var nz_passportnumber = $("input#nz_passportnumber").val();
         var nz_passportexpiry = $("input#nz_passportexpiry").val();
@@ -26,12 +33,18 @@
         var nz_citizenshipcertificate = $("input#nz_citizenshipcertificate").val();
         var nz_citizenshipcountryofbirth = $("input#nz_citizenshipcountryofbirth").val();
 
-		//get emails from FORM for sending resulted PDF
-        var clientemail = $("input#clientemail").val();
-        var agentemail = $("input#agentemail").val();
-        var adminemail = $("input#adminemail").val();
+		//get AU specific fields from FORM
+        var au_passportnumber = $("input#au_passportnumber").val();
+        var au_passportgender = $("input#au_passportgender").val();
+        var au_citizenshipacquisitiondate = $("input#au_citizenshipacquisitiondate").val();
+        var au_citizenshipbydescent = $("input#au_citizenshipbydescent").val();
+        var au_citizenshipstocknumber = $("input#au_citizenshipstocknumber").val();
+        var au_driverlicensenumber = $("input#au_driverlicensenumber").val();
+        var au_driverlicensestate = $("input#au_driverlicensestate").val();
+        var au_visacountryofissue = $("input#au_visacountryofissue").val();
+        var au_visapassportnumber = $("input#au_visapassportnumber").val();
+        var au_immicardnumber = $("input#au_immicardnumber").val();
 
-        var emailList = [clientemail, agentemail, adminemail];
 
 		//prepare json data
         var data = { 'details' : {}, 'reference' : '1', 'consent': 'Yes', 'capturereference': 'a09b1dc5-ea4f-4591-9e44-1fca76dfd000' };
@@ -65,6 +78,27 @@
             data.details.citizenship = { 'certificatenumber' : nz_citizenshipcertificate,
     								     'countryofbirth' : nz_citizenshipcountryofbirth };
  		};
+        if ( au_passportnumber ) {
+            data.details.australianpassport = { 'number' : au_passportnumber,
+    								  			'gender' : au_passportgender };
+        };
+        if ( au_visapassportnumber ) {
+            data.details.visa = { 'passportnumber' : au_visapassportnumber,
+    							  'countryofissue' : au_visacountryofissue };
+        };
+        if ( au_driverlicensenumber ) {
+            data.details.australiandriverslicence = { 'number' : au_driverlicensenumber,
+    							  'state' : au_driverlicensestate };
+        };
+        if ( au_citizenshipacquisitiondate ) {
+			if ( au_citizenshipbydescent == 'true' ) {
+            	data.details.citizenshipbydescent = { 'acquisitiondate' : au_citizenshipacquisitiondate,
+    								  				  'stocknumber' : au_citizenshipstocknumber };
+			} else {		
+            	data.details.australiancitizenship = { 'acquisitiondate' : au_citizenshipacquisitiondate,
+    								  				   'stocknumber' : au_citizenshipstocknumber };
+			}
+        };
 
         var requestJson = JSON.stringify(data);
         console.log("Cloudcheck request: " + requestJson);
