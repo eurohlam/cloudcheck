@@ -35,12 +35,12 @@
 
 		//get AU specific fields from FORM
         var au_passportnumber = $("input#au_passportnumber").val();
-        var au_passportgender = $("input#au_passportgender").val();
+        var au_passportgender = $("select#au_passportgender").val();
         var au_citizenshipacquisitiondate = $("input#au_citizenshipacquisitiondate").val();
         var au_citizenshipbydescent = $("input#au_citizenshipbydescent").val();
         var au_citizenshipstocknumber = $("input#au_citizenshipstocknumber").val();
         var au_driverlicensenumber = $("input#au_driverlicensenumber").val();
-        var au_driverlicensestate = $("input#au_driverlicensestate").val();
+        var au_driverlicensestate = $("select#au_driverlicensestate").val();
         var au_visacountryofissue = $("input#au_visacountryofissue").val();
         var au_visapassportnumber = $("input#au_visapassportnumber").val();
         var au_immicardnumber = $("input#au_immicardnumber").val();
@@ -99,6 +99,10 @@
     								  				   'stocknumber' : au_citizenshipstocknumber };
 			}
         };
+        if ( au_immicardnumber ) {
+            data.details.immicard = { 'number' : au_immicardnumber };
+        };
+
 
         var requestJson = JSON.stringify(data);
         console.log("Cloudcheck request: " + requestJson);
@@ -129,7 +133,7 @@
                     //clear all fields
                     $('#cloudcheckForm').trigger("reset");
 				} else if ( errorCode ) {
-	                   showAlert("error", "<p><strong>Verification error " + errorCode + ":</strong></p><p><strong>Error Message:</strong>" + errorMessage
+	                showAlert("error", "<p><strong>Verification error " + errorCode + ":</strong></p><p><strong>Error Message:</strong>" + errorMessage
                                 + "</p><p><strong>Error Details:</strong> " + errorDetail + "</p>"
                                 + "<p><strong>Incorrect fields:</strong> " + errorFields);
 				}
