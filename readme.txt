@@ -42,6 +42,52 @@ To run the integration your page must include at least the minimal structure of 
 
 Other shortcodes are optional and different for New Zealand and Australia.
 
+You are free to customize view of the page using basic html. Example of customized view:
+
+[cloudcheck_main_form]
+	<h2>Basic info</h2>
+	<hr>
+	[cloudcheck_basic_info]
+	[cloudcheck_emails]
+
+	<h2>Verification for Australia</h2>
+	<hr>
+
+	<h5>Australian Driving License</h5>
+    [cloudcheck_au_driving_license]
+	
+	<h5>Australian Citizenship</h5>
+	[cloudcheck_au_citizenship]
+	
+	<h5>Australian Passport</h5>
+	[cloudcheck_au_passport]
+
+	<h5>Australian Visa</h5>
+	[cloudcheck_au_visa]
+
+	<h5>Australian ImmiCard</h5>
+	[cloudcheck_au_immicard]
+
+	<h2>Verification for New Zealand</h2>
+	<hr>
+
+	<h5>New Zealand Passport</h5>
+    [cloudcheck_nz_passport]
+
+	<h5>New Zealand Driving License</h5>
+	[cloudcheck_nz_driving_license]
+
+	<h5>New Zealand Citizenship</h5>
+	[cloudcheck_nz_citizenship]
+	
+	<h5>New Zealand Birth Certificate</h5>
+	[cloudcheck_nz_birth_certificate]
+
+	<h5>New Zealand Vehicle Plate Number</h5>
+	[cloudcheck_nz_vehicle_plate_number]
+
+[/cloudcheck_main_form] 
+ 
 
 
 == Shortcodes ==
