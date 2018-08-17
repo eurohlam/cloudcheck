@@ -8,6 +8,19 @@
  * Author URI: https://roundkick.studio
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * License: GPLv2 or later
+
+Cloudcheck Integration is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+any later version.
+ 
+Cloudcheck Integration is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+ 
+You should have received a copy of the GNU General Public License
+along with Cloudcheck Integration. If not, see http://www.gnu.org/licenses/gpl-2.0.txt.
  */
 
 if (!defined('ABSPATH')) exit;
@@ -81,15 +94,11 @@ if (!class_exists('WP_Cloudcheck_Int')) {
 			$url = get_option($this->url_option);
 			$request = stripcslashes($_POST['request']);
 			$path = $_POST['path'];
-			error_log('Cloudcheck got request from AJAX for endpoint:' . $path);
-			error_log('Cloudcheck got request from AJAX: ' . $request);
 
 			if (!empty($accessKey) && !empty($secret) && !empty($url) && !empty($path)) {
 				$cloudcheckInt = new Cloudcheck_Integration();
 				$cloudcheckRequest = $cloudcheckInt->prepare_cloudcheck_parameters($accessKey, $secret, $path, $request);
-				error_log('Cloudcheck request: ' . json_encode($cloudcheckRequest));
 				$result = $cloudcheckInt->send_request($url . $path, $cloudcheckRequest);
-				error_log('Cloudcheck response: ' . $result);
 
 				$wpdb->insert(
 		 			$wpdb->prefix . $this->db_table_name,
@@ -115,9 +124,6 @@ if (!class_exists('WP_Cloudcheck_Int')) {
 	        $headers = array('Content-Type: text/html; charset=UTF-8');
 			$filepath = $_POST['filepath'];
 			$emailList = $_POST['emaillist'];
-
-			error_log("Cloudcheck send PDF: " . $filepath);
-			error_log("Cloudcheck send to: " . $emailList);
 
 	        wp_mail( $emailList, $subject, $body, $headers, $filepath );
 

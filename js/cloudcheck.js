@@ -106,6 +106,7 @@
 
         var requestJson = JSON.stringify(data);
         console.log("Cloudcheck request: " + requestJson);
+        showAlert("success", "<strong>Connecting to Cloudcheck service. Please, wait for a moment ...</strong>");
 
         $.ajax({
             url: "/wp-admin/admin-ajax.php",
@@ -125,10 +126,8 @@
                 var errorCode = data.verification.error;
                 var errorFields = data.verification.fields;
 
-				console.log("Ref: " + ref);
-				console.log("Error: " + errorCode + ": " + errorMessage + ";  " + errorMessage);
-
 				if ( ref ) {
+			        showAlert("success", "<strong>Connecting to Cloudcheck service. Please, wait for a moment ...</strong>");
 					getPdf(ref, emailList);
                     //clear all fields
                     $('#cloudcheckForm').trigger("reset");
@@ -164,7 +163,7 @@
             cache: false,
             success: function(data) {
                 console.log("Cloudcheck response: " + JSON.stringify(data));
-                showAlert("success", "<strong>Verification completed successfully. Trying to send result by email ...</strong>");
+                showAlert("success", "<strong>Verification completed successfully. Getting resulted PDF...</strong>");
 
                 //open pdf in new tab
                 window.open(data.pdfUrl, '_blank');
