@@ -37,7 +37,7 @@
         var au_passportnumber = $("input#au_passportnumber").val();
         var au_passportgender = $("select#au_passportgender").val();
         var au_citizenshipacquisitiondate = $("input#au_citizenshipacquisitiondate").val();
-        var au_citizenshipbydescent = $("input#au_citizenshipbydescent").val();
+        var au_citizenshipbydescent = $("input#au_citizenshipbydescent").is(":checked");
         var au_citizenshipstocknumber = $("input#au_citizenshipstocknumber").val();
         var au_driverlicensenumber = $("input#au_driverlicensenumber").val();
         var au_driverlicensestate = $("select#au_driverlicensestate").val();
@@ -91,10 +91,9 @@
     							  'state' : au_driverlicensestate };
         };
         if ( au_citizenshipacquisitiondate ) {
-			if ( au_citizenshipbydescent == 'true' ) {
-            	data.details.citizenshipbydescent = { 'acquisitiondate' : au_citizenshipacquisitiondate,
-    								  				  'stocknumber' : au_citizenshipstocknumber };
-			} else {		
+			if ( au_citizenshipbydescent == true ) {
+            	data.details.citizenshipbydescent = { 'acquisitiondate' : au_citizenshipacquisitiondate };
+			} else {
             	data.details.australiancitizenship = { 'acquisitiondate' : au_citizenshipacquisitiondate,
     								  				   'stocknumber' : au_citizenshipstocknumber };
 			}
@@ -106,6 +105,7 @@
 
         var requestJson = JSON.stringify(data);
         console.log("Cloudcheck request: " + requestJson);
+        showAlert("success", "<strong>Connecting to Cloudcheck service. Please, wait for a moment ...</strong>");
 
         $.ajax({
             url: "/wp-admin/admin-ajax.php",
@@ -125,10 +125,8 @@
                 var errorCode = data.verification.error;
                 var errorFields = data.verification.fields;
 
-				console.log("Ref: " + ref);
-				console.log("Error: " + errorCode + ": " + errorMessage + ";  " + errorMessage);
-
 				if ( ref ) {
+			        showAlert("success", "<strong>Connecting to Cloudcheck service. Please, wait for a moment ...</strong>");
 					getPdf(ref, emailList);
                     //clear all fields
                     $('#cloudcheckForm').trigger("reset");
@@ -164,7 +162,7 @@
             cache: false,
             success: function(data) {
                 console.log("Cloudcheck response: " + JSON.stringify(data));
-                showAlert("success", "<strong>Verification completed successfully. Trying to send result by email ...</strong>");
+                showAlert("success", "<strong>Verification completed successfully. Getting resulted PDF...</strong>");
 
                 //open pdf in new tab
                 window.open(data.pdfUrl, '_blank');
@@ -215,5 +213,14 @@
             $('#success > .alert-success').append('</div>');
         }
     } //showAlert
+
+    $("input#au_citizenshipbydescent").change(function (event) {
+        var au_citizenshipbydescent = $("input#au_citizenshipbydescent").is(":checked");
+        if(this.checked) {
+            $("#div_au_citizenshipstocknumber").hide();
+        } else {
+            $("#div_au_citizenshipstocknumber").show();
+        }
+    });
 
 }) ( jQuery );
