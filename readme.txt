@@ -42,7 +42,9 @@ To run the integration your page must include at least the minimal structure of 
 
 Other shortcodes are optional and different for New Zealand and Australia.
 
-You are free to customize view of the page using basic html. Example of customized view:
+You are free to customize view of the page using basic html. We are using bootstrap 4 in our forms. Bootstrap 4 styles and scripts are imported as part of the plugin.
+So, you can combine html with bootstrap styles.
+Example of customized view:
 
 [cloudcheck_main_form]
 	<h2>Identification Verification</h2>
@@ -68,6 +70,9 @@ You are free to customize view of the page using basic html. Example of customiz
 
 [/cloudcheck_main_form]
 
+Important Note: Since identification verification operates with sensible information, it is not allowed to run verification for users that are not logged in.
+Even if form page is accessible for not logged-in users, verification will not work anyway and plugin will return error 400 Bad request.
+
 
 
 == Shortcodes ==
@@ -90,6 +95,17 @@ The list of available shortcodes for verfication in Australia:
 	[cloudcheck_au_passport] - Shortcode that shows fields for verification by Australian passport: passport number, passport gender
 	[cloudcheck_au_visa] - Shortcode that shows fields for verification by Australian Visa: Country of Issue, Passport Number
 	[cloudcheck_au_immicard] - Shortcode that shows fields for verification by Australian ImmiCard: immicard number
+
+
+
+
+
+== Verification Data History ==
+
+The plugin keeps all requests-responses to Cloudcheck service in database table with name $prefix_cc_message_log.
+All resulted PDF files are stored in folder wp-content/uploads/cloudcheck_int.
+
+
 
 
 == Changelog ==

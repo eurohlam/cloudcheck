@@ -90,11 +90,17 @@ class Cloudcheck_Integration {
 
   private function save_pdf_as_file ($file) {
       $upload = wp_upload_dir();
+      $path = $upload['path'];
+      $url = $upload['url'];
+      if(file_exists($upload['basedir'] . '/cloudcheck_int')) {
+          $path = $upload['basedir'] . '/cloudcheck_int';
+          $url = $upload['baseurl'] . '/cloudcheck_int';
+      }
       //wp_mkdir_p($upload['basedir'] . '/cloudcheck');
       $filename = $this->milliseconds() . '.pdf';
-      file_put_contents($upload['path'] . '/' . $filename, $file);
-      $result = '{"pdfUrl" : "' . $upload['url'] . '/' . $filename .'",'.
-                 '"pdfPath" : "' . $upload['path'] . '/' . $filename . '"}';
+      file_put_contents($path . '/' . $filename, $file);
+      $result = '{"pdfUrl" : "' . $url . '/' . $filename .'",'.
+                 '"pdfPath" : "' . $path . '/' . $filename . '"}';
       return $result;
   }
 
