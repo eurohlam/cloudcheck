@@ -7,7 +7,7 @@ function cloudcheck_shortcodes_init()
 	 */
     function cloudcheck_main_form_shortcode($atts = [], $content = null)
     {
-        $form = '<head><link rel="stylesheet" href="/wp-content/plugins/cloudcheck/css/bootstrap.css"></head>
+        $form = '<head><link rel="stylesheet" href="/wp-content/plugins/cloudcheck/css/bootstrap.min.css"></head>
             <section id="cloudcheck_section">
                 <div class="container"><div class="row">
                 <form id="cloudcheckForm">'
@@ -21,6 +21,7 @@ function cloudcheck_shortcodes_init()
                 </form>
                 </div></div>
             </section>
+            <script type="text/javascript" src="/wp-content/plugins/cloudcheck/js/bootstrap.min.js"></script>
 		    <script type="text/javascript" src="/wp-content/plugins/cloudcheck/js/cloudcheck.js"></script>';
         return $form;
     }
