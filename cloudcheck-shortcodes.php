@@ -243,7 +243,7 @@ function cloudcheck_shortcodes_init()
     {
         $citizenship = '<h5>Australian Citizenship</h5>
             <div class="row control-group">
-                <div class="form-group col-xs-12 floating-label-form-group controls ml-3">
+                <div class="form-check col-xs-12 floating-label-form-group controls ml-3">
                     <input id="au_citizenshipbydescent" class="form-check-input" type="checkbox"/>
                     <label>Citizenship By Descent</label>
     			</div>
